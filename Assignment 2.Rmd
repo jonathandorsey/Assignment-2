@@ -37,7 +37,6 @@ cetacean <- read_csv("captive_cetacean.csv")
 Task 1: 
 ```{r}
 
-# Determine the differences in life lengths of captured vs born Bottlenose dolphins
 
 select <- dplyr::select
 
@@ -62,11 +61,6 @@ cetacean_df2 <- cetacean_df %>%
   filter(lifespan2 >= 1) %>% 
   select(species, acquisition, birthYear, statusDate, lifespan2)
 
-#names(cetacean_df2) <- c("Species", "Born or Captured", "Birth Year", "Death Year", "Age at Death")
-                         
-#ggplot(cetacean_df2, aes(x="Age at Death" , group = "Born or Captured"))+
- #  geom_histogram( stat = "count")+
-  # theme_bw()
 
 ggplot(cetacean_df2, aes(x=lifespan2, fill = acquisition, group = acquisition))+
    geom_histogram(aes(y = ..count.., fill = acquisition, group = acquisition), stat = "bin", binwidth=1, alpha=0.4, position="identity")+
