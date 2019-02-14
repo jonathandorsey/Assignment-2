@@ -1,0 +1,66 @@
+---
+title: "Assignment 2"
+author: "Jonathan Dorsey"
+date: "February 13, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(MASS)
+library(ggrepel)
+library(RColorBrewer)
+library(factoextra)
+library(ggbiplot)
+library(shinythemes)
+library(boot)
+library(naniar)
+library(simputation)
+library(Ecdat)
+library(plm)
+library(lmtest)
+library(car)
+library(lubridate)
+library(stringr)
+
+fishcatch <- read_csv("fish_catch.csv")
+cetacean <- read_csv("captive_cetacean.csv")
+```
+
+Task 1: 
+```{r}
+
+# Determine the differences in life lengths of captured vs born Bottlenose dolphins
+
+select <- dplyr::select
+
+cetacean_df <- cetacean %>% 
+  filter( species == "Bottlenose") %>% 
+  filter(status == "Died") %>% 
+  filter(acquisition == "Capture" | acquisition == "Born") %>% 
+  filter(birthYear != "NA") %>% 
+  filter(statusDate != "NA") %>% 
+  select(species, acquisition, status, birthYear, statusDate) %>% 
+  mutate(cetacean_df$statusDate, statusDate = str_sub(statusDate, start=-2))
+
+
+cetacean_df$statusDate <- as.numeric(cetacean_df$statusDate)
+cetacean_df$birthYear <- as.numeric(cetacean_df$birthYear)
+
+cetacean_df2 <- cetacean_df %>% 
+  mutate(cetacean_df, statusDate = statusDate + 1900) %>% 
+  mutate(lifespan = statusDate - birthYear) %>% 
+  mutate(lifespan2 = ifelse(test = (lifespan >= 0), yes = lifespan, no = lifespan +100)) %>% 
+  filter(lifespan2 <= 61)
+                         
+                       
+
+```
+
